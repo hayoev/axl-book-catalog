@@ -5,7 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Common" />
+      <Folder Include="Common\SoftDeletes" />
     </ItemGroup>
 
 </Project>
