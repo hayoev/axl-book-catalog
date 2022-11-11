@@ -4,4 +4,11 @@
         <TargetFramework>netcoreapp3.1</TargetFramework>
     </PropertyGroup>
 
+    <ItemGroup>
+      <Folder Include="Common" />
+      <Folder Include="Features\Books\Commands" />
+      <Folder Include="Features\Books\Queries" />
+      <Folder Include="Services" />
+    </ItemGroup>
+
 </Project>
