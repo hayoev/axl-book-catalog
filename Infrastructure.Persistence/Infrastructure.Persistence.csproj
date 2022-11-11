@@ -5,6 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <Folder Include="Configurations\Users" />
       <Folder Include="Contexts" />
       <Folder Include="Migrations" />
       <Folder Include="Seeders" />
