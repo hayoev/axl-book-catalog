@@ -1,7 +1,5 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AXLBookCatalog", "AXLBookCatalog\AXLBookCatalog.csproj", "{3D810C3F-029C-41BB-B016-CF6554F02E19}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C2402B5C-2CD0-49E6-A91E-8D005B46F352}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{756E5276-66F5-4BE5-9874-A2730492F34D}"
@@ -30,10 +28,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{3D810C3F-029C-41BB-B016-CF6554F02E19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3D810C3F-029C-41BB-B016-CF6554F02E19}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3D810C3F-029C-41BB-B016-CF6554F02E19}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3D810C3F-029C-41BB-B016-CF6554F02E19}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1BD35F8E-706E-44BB-862F-84D1CFA7CF16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1BD35F8E-706E-44BB-862F-84D1CFA7CF16}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1BD35F8E-706E-44BB-862F-84D1CFA7CF16}.Release|Any CPU.ActiveCfg = Release|Any CPU
