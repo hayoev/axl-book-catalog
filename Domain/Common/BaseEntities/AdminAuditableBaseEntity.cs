@@ -10,6 +10,5 @@ namespace Domain.Common.BaseEntities
         
         public AdminUser CreatedByAdminUser { get; set; }
         public AdminUser UpdatedByAdminUser { get; set; }
-        
     }
 }
