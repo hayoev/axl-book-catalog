@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 
 namespace WebApi.Admin
 {
@@ -26,6 +27,22 @@ namespace WebApi.Admin
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "AXL Book Catalog Admin API",
+                    Version = "v1",
+                    Description = "Description for the API goes here.",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Karomatullo Hayoev",
+                        Email = string.Empty,
+                        Url = new Uri("https://github.com/hayoev"),
+                    },
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,6 +60,12 @@ namespace WebApi.Admin
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint($"/swagger/v1/swagger.json", "AXL Book Catalog Admin API");
+            });
         }
     }
 }
