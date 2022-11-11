@@ -12,9 +12,15 @@ namespace Infrastructure.Persistence.Configurations.Authors
                 .HasMaxLength(255)
                 .IsRequired();
             
-            builder.Property(b => b.Fullname)
-                .HasMaxLength(255)
-                .IsRequired();
+            builder.Property(b => b.Bio)
+                .HasMaxLength(1000)
+                .IsRequired(false);
+            
+            builder.Property(b => b.BirthDate)
+                .IsRequired(false);
+            
+            builder.Property(b => b.DeathDate)
+                .IsRequired(false);
 
             builder.HasOne(x => x.CreatedByAdminUser)
                 .WithMany()

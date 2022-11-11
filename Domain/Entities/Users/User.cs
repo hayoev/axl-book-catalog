@@ -8,6 +8,7 @@ namespace Domain.Entities.Users
     public class User : AdminAuditableBaseEntity
     {
         public string Username { get; set; }
+        
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string MiddleName { get; set; }

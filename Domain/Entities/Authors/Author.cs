@@ -10,7 +10,7 @@ namespace Domain.Entities.Authors
     {
         public string Fullname { get; set; }
         public string Bio { get; set; }
-        public DateTime BirthDate { get; set; }
+        public DateTime? BirthDate { get; set; }
         public DateTime? DeathDate { get; set; }
         public ICollection<Book> Books { get; set; } = new Collection<Book>();
     }

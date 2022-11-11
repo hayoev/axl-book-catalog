@@ -13,15 +13,27 @@ namespace Infrastructure.Persistence.Configurations.Books
                 .IsRequired();
             
             builder.Property(b => b.Description)
-                .HasMaxLength(255)
+                .HasMaxLength(500)
+                .IsRequired(false);
+            
+            builder.Property(b => b.PublishYear)
+                .IsRequired();
+            
+            builder.Property(b => b.PageCount)
                 .IsRequired();
             
             builder.HasOne(x => x.Author)
-                .WithMany()
-                .HasForeignKey(x => x.Author)
+                .WithMany(x=>x.Books)
+                .HasForeignKey(x => x.AuthorId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired();
             
+            builder.HasOne(x => x.Category)
+                .WithMany(x=>x.Books)
+                .HasForeignKey(x => x.CategoryId)
+                .OnDelete(DeleteBehavior.Restrict)
+                .IsRequired();
+
             builder.HasOne(x => x.CreatedByAdminUser)
                 .WithMany()
                 .HasForeignKey(x => x.CreatedByAdminUserId)

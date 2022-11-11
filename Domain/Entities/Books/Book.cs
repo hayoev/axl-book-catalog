@@ -16,6 +16,7 @@ namespace Domain.Entities.Books
         public Author Author { get; set; }
         public short PublishYear { get; set; }
         public int PageCount { get; set; }
-        public ICollection<Category> Categories { get; set; } = new Collection<Category>();
+        public Guid CategoryId { get; set; }
+        public Category Category { get; set; }
     }
 }

@@ -32,11 +32,11 @@ namespace Infrastructure.Persistence.Configurations.AdminUsers
 
             builder.Property(b => b.LastName)
                 .HasMaxLength(100)
-                .IsRequired(false);
+                .IsRequired();
 
             builder.Property(b => b.MiddleName)
                 .HasMaxLength(100)
-                .IsRequired();
+                .IsRequired(false);
 
             builder.Property(b => b.IsActive)
                 .IsRequired();
@@ -72,22 +72,22 @@ namespace Infrastructure.Persistence.Configurations.AdminUsers
                 new AdminUser()
                 {
                     Id = AdminUserEnum.System.Value,
-                    Email = "systemib@eskhata.tj",
+                    Email = "systemib@axl.com",
                     Password = "123",
                     Username = "system",
                     FirstName = "system",
-                    MiddleName = "system",
+                    LastName = "system",
                     IsActive = true,
                     CreatedByAdminUserId = null
                 },
                 new AdminUser()
                 {
                     Id = AdminUserEnum.Sadmin.Value,
-                    Email = "adminib@eskhata.tj",
+                    Email = "admin@alx.com",
                     Password = "123",
                     Username = "admin",
                     FirstName = "admin",
-                    MiddleName = "admin",
+                    LastName = "admin",
                     IsActive = true,
                     CreatedByAdminUserId = AdminUserEnum.System.Value
                 }

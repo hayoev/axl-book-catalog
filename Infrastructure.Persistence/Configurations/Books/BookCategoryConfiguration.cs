@@ -1,28 +1,22 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Domain.Entities.Books;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Domain.Entities.Categories;
 
-namespace Infrastructure.Persistence.Configurations.Categories
+namespace Infrastructure.Persistence.Configurations.Books
 {
-    public class CategoryConfiguration : IEntityTypeConfiguration<Category>
+    public class BookCategoryConfiguration : IEntityTypeConfiguration<BookCategory>
     {
-        public void Configure(EntityTypeBuilder<Category> builder)
+        public void Configure(EntityTypeBuilder<BookCategory> builder)
         {
-            builder.Property(b => b.Code)
-                .HasMaxLength(100)
-                .IsRequired();
-
-            builder.Property(b => b.Name)
-                .HasMaxLength(255)
+            builder.HasOne(x => x.Book)
+                .WithMany()
+                .HasForeignKey(x => x.BookId)
+                .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired();
             
-            builder.Property(b => b.Description)
-                .HasMaxLength(500)
-                .IsRequired(false);
-
-            builder.HasOne(x => x.CreatedByAdminUser)
+            builder.HasOne(x => x.Category)
                 .WithMany()
-                .HasForeignKey(x => x.CreatedByAdminUserId)
+                .HasForeignKey(x => x.CategoryId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired();
             
@@ -37,6 +31,9 @@ namespace Infrastructure.Persistence.Configurations.Categories
                 .HasForeignKey(x => x.UpdatedByAdminUserId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired(false);
+            
+            builder.HasIndex(b => new {b.CategoryId, b.BookId})
+                .IsUnique();
         }
     }
 }
