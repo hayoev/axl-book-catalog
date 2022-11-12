@@ -45,8 +45,16 @@ namespace WebApi.Admin.Controllers.Authors
             });
             return Ok(new SuccessResponse<GetAuthorDetailViewModel>(data));
         }
-        
-        
+
+        [HttpPost("create")]
+        //[Authorize(nameof(AdminPermissionEnum.CreateAuthor))]
+        public async Task<IActionResult> Create(CreateAuthorCommand request)
+        {
+            var id = await Mediator.Send(request);
+
+            return Ok(new SuccessResponse<Guid>(id));
+        }
+
         [HttpGet("{authorId:guid}/edit")]
         //[Authorize(nameof(AdminPermissionEnum.AuthorEdit))]
         [ProducesResponseType(typeof(SuccessResponse<GetAuthorEditViewModel>), StatusCodes.Status200OK)]
@@ -58,22 +66,22 @@ namespace WebApi.Admin.Controllers.Authors
             });
             return Ok(new SuccessResponse<GetAuthorEditViewModel>(data));
         }
-        
-        [HttpPost("edit")]
+
+        [HttpPut("edit")]
         //[Authorize(nameof(AdminPermissionEnum.AuthorEdit))]
-        [ProducesResponseType(typeof(SuccessResponse<Guid>),StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(SuccessResponse<Guid>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Update(UpdateAuthorCommand request)
         {
             var id = await Mediator.Send(request);
             return Ok(new SuccessResponse<Guid>(id));
         }
 
-        [HttpPost("create")]
-        //[Authorize(nameof(AdminPermissionEnum.CreateAuthor))]
-        public async Task<IActionResult> Create(CreateAuthorCommand request)
+        [HttpDelete("delete")] //TODO create delete command
+        //[Authorize(nameof(AdminPermissionEnum.AuthorEdit))]
+        [ProducesResponseType(typeof(SuccessResponse<Guid>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> Delete(UpdateAuthorCommand request)
         {
             var id = await Mediator.Send(request);
-
             return Ok(new SuccessResponse<Guid>(id));
         }
     }

@@ -45,8 +45,17 @@ namespace WebApi.Admin.Controllers.Books
             });
             return Ok(new SuccessResponse<GetBookDetailViewModel>(data));
         }
-        
-        
+
+
+        [HttpPost("create")]
+        //[Authorize(nameof(AdminPermissionEnum.CreateBook))]
+        public async Task<IActionResult> Create(CreateBookCommand request)
+        {
+            var id = await Mediator.Send(request);
+
+            return Ok(new SuccessResponse<Guid>(id));
+        }
+
         [HttpGet("{bookId:guid}/edit")]
         //[Authorize(nameof(AdminPermissionEnum.BookEdit))]
         [ProducesResponseType(typeof(SuccessResponse<GetBookEditViewModel>), StatusCodes.Status200OK)]
@@ -58,22 +67,22 @@ namespace WebApi.Admin.Controllers.Books
             });
             return Ok(new SuccessResponse<GetBookEditViewModel>(data));
         }
-        
-        [HttpPost("edit")]
+
+        [HttpPut("edit")]
         //[Authorize(nameof(AdminPermissionEnum.BookEdit))]
-        [ProducesResponseType(typeof(SuccessResponse<Guid>),StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(SuccessResponse<Guid>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Update(UpdateBookCommand request)
         {
             var id = await Mediator.Send(request);
             return Ok(new SuccessResponse<Guid>(id));
         }
-
-        [HttpPost("create")]
-        //[Authorize(nameof(AdminPermissionEnum.CreateBook))]
-        public async Task<IActionResult> Create(CreateBookCommand request)
+        
+        [HttpDelete("delete")]
+        //[Authorize(nameof(AdminPermissionEnum.BookEdit))] //TODO create delete command
+        [ProducesResponseType(typeof(SuccessResponse<Guid>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> Delete(UpdateBookCommand request)
         {
             var id = await Mediator.Send(request);
-
             return Ok(new SuccessResponse<Guid>(id));
         }
     }
