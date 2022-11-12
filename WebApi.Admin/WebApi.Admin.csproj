@@ -12,5 +12,12 @@
       <ProjectReference Include="..\Infrastructure.Persistence\Infrastructure.Persistence.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Common" />
+      <Folder Include="Controllers\Books" />
+      <Folder Include="Controllers\Categories" />
+      <Folder Include="Controllers\Users" />
+    </ItemGroup>
+
 
 </Project>

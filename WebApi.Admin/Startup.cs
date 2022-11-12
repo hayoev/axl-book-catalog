@@ -1,18 +1,15 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Application.Admin;
+using Application.Admin.Features.Authors.Commands.CreateAuthor;
+using FluentValidation.AspNetCore;
 using Infrastructure.Persistence;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using WebApi.Admin.Common.Filters;
 
 namespace WebApi.Admin
 {
@@ -28,7 +25,19 @@ namespace WebApi.Admin
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers(config =>
+                {
+                   config.Filters.Add<ErrorValidationHandlerActionFilter>();
+                })
+                .ConfigureApiBehaviorOptions(options => 
+                {   
+                    options.SuppressModelStateInvalidFilter = true;     
+                })
+                .AddJsonOptions(options => { options.JsonSerializerOptions.IgnoreNullValues = true; })
+                .AddMvcOptions(o => o.AllowEmptyInputInBodyModelBinding = false)
+                //.AddMvcOptions(o => o.Filters.Add(typeof(ShowWithPermissionHandlerFilter)))
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateAuthorCommand>());
+
             
             services.AddApplicationLayer(Configuration);
             services.AddAdminPersistenceInfrastructureLayer(Configuration);
