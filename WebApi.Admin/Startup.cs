@@ -43,22 +43,7 @@ namespace WebApi.Admin
             services.AddApplicationAuthentication(Configuration);
             services.AddAdminPersistenceInfrastructureLayer(Configuration);
             services.AddPasswordHasher();
-
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo
-                {
-                    Title = "AXL Book Catalog Admin API",
-                    Version = "v1",
-                    Description = "Description for the API goes here.",
-                    Contact = new OpenApiContact
-                    {
-                        Name = "Karomatullo Hayoev",
-                        Email = string.Empty,
-                        Url = new Uri("https://github.com/hayoev"),
-                    },
-                });
-            });
+            services.AddSwagger(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

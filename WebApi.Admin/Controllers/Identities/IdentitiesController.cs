@@ -2,6 +2,7 @@
 using Application.Admin.Features.Identities.Commands.Authenticate;
 using Application.Admin.Features.Identities.Commands.RefreshTokens;
 using Application.Admin.Features.Identities.Commands.RevokeRefreshToken;
+using Application.Admin.Features.Identities.Commands.SetPassword;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -35,6 +36,15 @@ namespace WebApi.Admin.Controllers.Identities
         {
             var result = await Mediator.Send(request);
             return Ok(new SuccessResponse<bool>(result));
+        }
+        
+        [AllowAnonymous]
+        [HttpPost("set-password")]
+        [ProducesResponseType(typeof(SuccessResponse<bool>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> SetPassword([FromBody] SetPasswordCommand request)
+        {
+            var data = await Mediator.Send(request);
+            return Ok(new SuccessResponse<bool>(data));
         }
     }
 }
