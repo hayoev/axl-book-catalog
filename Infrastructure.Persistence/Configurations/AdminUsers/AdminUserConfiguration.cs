@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Domain.Entities.AdminUsers;
@@ -78,7 +79,8 @@ namespace Infrastructure.Persistence.Configurations.AdminUsers
                     FirstName = "system",
                     LastName = "system",
                     IsActive = true,
-                    CreatedByAdminUserId = null
+                    CreatedByAdminUserId = null,
+                    CreatedDateTime = new DateTime(2022, 11, 13, 8, 47, 31, 256, DateTimeKind.Local).AddTicks(7253)
                 },
                 new AdminUser()
                 {
@@ -89,7 +91,8 @@ namespace Infrastructure.Persistence.Configurations.AdminUsers
                     FirstName = "admin",
                     LastName = "admin",
                     IsActive = true,
-                    CreatedByAdminUserId = AdminUserEnum.System.Value
+                    CreatedByAdminUserId = AdminUserEnum.System.Value,
+                    CreatedDateTime = new DateTime(2022, 11, 13, 8, 47, 31, 256, DateTimeKind.Local).AddTicks(7253)
                 }
             };
 

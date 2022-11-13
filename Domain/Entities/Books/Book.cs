@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Domain.Common.BaseEntities;
+using Domain.Common.SoftDeletes;
+using Domain.Entities.AdminUsers;
 using Domain.Entities.Authors;
 using Domain.Entities.Categories;
 
 namespace Domain.Entities.Books
 {
-    public class Book : AdminAuditableBaseEntity
+    public class Book : AdminAuditableBaseEntity, ISoftDeleted
     {
         public string Name { get; set; }
         public string Cover { get; set; }
@@ -18,5 +20,9 @@ namespace Domain.Entities.Books
         public int PageCount { get; set; }
         public Guid CategoryId { get; set; }
         public Category Category { get; set; }
+        public DateTime? DeletedDateTime { get; set; }
+        public Guid? DeletedByUserId { get; set; }
+        public AdminUser DeletedByUser { get; set; }
+
     }
 }

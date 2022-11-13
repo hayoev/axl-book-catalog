@@ -50,7 +50,7 @@ namespace Infrastructure.Persistence.Configurations.AdminUsers
                     Id = AdminRoleEnum.Sadmin.Value,
                     Code = "SADMIN",
                     Name = "Администратор",
-                    CreatedDateTime = DateTime.Now,
+                    CreatedDateTime = new DateTime(2022, 11, 13, 8, 47, 31, 256, DateTimeKind.Local).AddTicks(7253),
                     CreatedByAdminUserId = AdminUserEnum.System.Value
                 }
             };

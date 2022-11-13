@@ -45,7 +45,16 @@ namespace Infrastructure.Persistence.Configurations.Books
                 .HasForeignKey(x => x.UpdatedByAdminUserId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired(false);
-            
+                
+            builder.Property(b => b.DeletedDateTime)
+                .IsRequired(false);
+
+            builder.HasOne(x => x.DeletedByUser)
+                .WithMany()
+                .HasForeignKey(x => x.DeletedByUserId)
+                .OnDelete(DeleteBehavior.Restrict)
+                .IsRequired(false);
+
         }
     }
 }

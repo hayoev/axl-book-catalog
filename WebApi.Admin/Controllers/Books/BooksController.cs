@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Application.Admin.Features.Books.Commands.CreateBook;
+using Application.Admin.Features.Books.Commands.DeleteBook;
 using Application.Admin.Features.Books.Commands.UpdateBook;
 using Application.Admin.Features.Books.Queries.GetBookDetail;
 using Application.Admin.Features.Books.Queries.GetBookEdit;
@@ -76,11 +77,11 @@ namespace WebApi.Admin.Controllers.Books
             var id = await Mediator.Send(request);
             return Ok(new SuccessResponse<Guid>(id));
         }
-        
+
         [HttpDelete("delete")]
-        //[Authorize(nameof(AdminPermissionEnum.BookEdit))] //TODO create delete command
+        //[Authorize(nameof(AdminPermissionEnum.BookEdit))]
         [ProducesResponseType(typeof(SuccessResponse<Guid>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Delete(UpdateBookCommand request)
+        public async Task<IActionResult> Delete(DeleteBookCommand request)
         {
             var id = await Mediator.Send(request);
             return Ok(new SuccessResponse<Guid>(id));

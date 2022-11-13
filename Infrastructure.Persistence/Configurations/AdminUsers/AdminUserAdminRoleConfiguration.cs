@@ -47,7 +47,7 @@ namespace Infrastructure.Persistence.Configurations.AdminUsers
                     Id = Guid.Parse("0e4ce9f0-95d1-11eb-9f9c-244bfee059a7"),
                     AdminUserId = AdminUserEnum.Sadmin.Value,
                     AdminRoleId = AdminRoleEnum.Sadmin.Value,
-                    CreatedDateTime = DateTime.Now,
+                    CreatedDateTime = new DateTime(2022, 11, 13, 8, 47, 31, 256, DateTimeKind.Local).AddTicks(7253),
                     CreatedByAdminUserId = AdminUserEnum.System.Value
                 }
             };

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Application.Admin.Features.Authors.Commands.CreateAuthor;
+using Application.Admin.Features.Authors.Commands.DeleteAuthor;
 using Application.Admin.Features.Authors.Commands.UpdateAuthor;
 using Application.Admin.Features.Authors.Queries.GetAuthorDetail;
 using Application.Admin.Features.Authors.Queries.GetAuthorEdit;
@@ -76,10 +77,10 @@ namespace WebApi.Admin.Controllers.Authors
             return Ok(new SuccessResponse<Guid>(id));
         }
 
-        [HttpDelete("delete")] //TODO create delete command
+        [HttpDelete("delete")]
         //[Authorize(nameof(AdminPermissionEnum.AuthorEdit))]
         [ProducesResponseType(typeof(SuccessResponse<Guid>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Delete(UpdateAuthorCommand request)
+        public async Task<IActionResult> Delete(DeleteAuthorCommand request)
         {
             var id = await Mediator.Send(request);
             return Ok(new SuccessResponse<Guid>(id));
