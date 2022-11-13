@@ -4,6 +4,7 @@ using Infrastructure.Persistence.Seeders;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using IClientApplicationDbContext = Application.Client.Common.Interfaces.IApplicationDbContext;
 
 namespace Infrastructure.Persistence
 {
@@ -21,18 +22,19 @@ namespace Infrastructure.Persistence
             return services;
         }
 
-        /*public static IServiceCollection AddClientPersistenceInfrastructureLayer(this IServiceCollection services,
+        public static IServiceCollection AddClientPersistenceInfrastructureLayer(this IServiceCollection services,
             IConfiguration configuration)
         {
             services.AddDbContext<ClientApplicationDbContext>(options =>
-                {
-                    options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
-                    options.EnableSensitiveDataLogging();
-                });
+            {
+                options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
+                options.EnableSensitiveDataLogging();
+            });
 
-            services.AddScoped<IClientApplicationDbContext>(provider => provider.GetService<ClientApplicationDbContext>());
+            services.AddScoped<IClientApplicationDbContext>(provider =>
+                provider.GetService<ClientApplicationDbContext>());
 
             return services;
-        }*/
+        }
     }
 }
