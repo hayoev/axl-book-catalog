@@ -1,5 +1,6 @@
 ﻿using Application.Admin.Common.Interfaces;
 using Infrastructure.Persistence.Contexts;
+using Infrastructure.Persistence.Seeders;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,7 +17,7 @@ namespace Infrastructure.Persistence
                     b => b.MigrationsAssembly(typeof(AdminApplicationDbContext).Assembly.FullName)));
 
             services.AddScoped<IApplicationDbContext>(provider => provider.GetService<AdminApplicationDbContext>());
-            //services.AddTransient<ISeeder, Seeder>();
+            services.AddTransient<ISeeder, Seeder>();
             return services;
         }
 

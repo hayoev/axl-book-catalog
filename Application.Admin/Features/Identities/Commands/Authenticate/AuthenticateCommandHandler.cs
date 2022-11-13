@@ -24,13 +24,12 @@ namespace Application.Admin.Features.Identities.Commands.Authenticate
         private readonly AuthenticationConfiguration _authenticationConfiguration;
 
         public AuthenticateCommandHandler(IApplicationDbContext dbContext, ITokenService tokenService,
-            AuthenticationConfiguration authenticationConfiguration,
-            IPasswordHasherService passwordHasherService)
+            IPasswordHasherService passwordHasherService, AuthenticationConfiguration authenticationConfiguration)
         {
             _dbContext = dbContext;
             _tokenService = tokenService;
-            _authenticationConfiguration = authenticationConfiguration;
             _passwordHasherService = passwordHasherService;
+            _authenticationConfiguration = authenticationConfiguration;
         }
 
         public async Task<AuthenticateViewModel> Handle(AuthenticateCommand request,
@@ -44,7 +43,9 @@ namespace Application.Admin.Features.Identities.Commands.Authenticate
 
             var adminUser = await GetAdminUserByUsername(request.Username, cancellationToken);
 
-            await VerifyPassword(adminUser, request.Password, cancellationToken);
+            if (!_passwordHasherService.Verify(request.Password, adminUser.Password,
+                    adminUser.PasswordSalt, _authenticationConfiguration.Password.GlobalSalt))
+                throw new ValidationException("Login or password is incorrect");
 
             var claims = new List<Claim>
             {
@@ -97,17 +98,6 @@ namespace Application.Admin.Features.Identities.Commands.Authenticate
             return adminUser;
         }
 
-        private async Task VerifyPassword(AdminUser adminUser, string password,
-            CancellationToken cancellationToken = new CancellationToken())
-        {
-            if (!_passwordHasherService.Verify(password, adminUser.Password,
-                    adminUser.PasswordSalt, _authenticationConfiguration.Password.GlobalSalt))
-            {
-                await _dbContext.SaveChangesAsync(cancellationToken);
-                throw new ValidationException("Login or password is incorrect");
-            }
-        }
-
         private async Task<string[]> GetPermissions(Guid adminUserId)
         {
             var permissions = new List<string>();
@@ -126,13 +116,15 @@ namespace Application.Admin.Features.Identities.Commands.Authenticate
                 return _dbContext.AdminPermissions.AsNoTracking().Select(p => p.Code).ToArray();
             }
 
-            foreach (var adminUserAdminRole in adminUserAdminRoles.Where(adminUserAdminRole =>
-                         adminUserAdminRole?.AdminRole?.AdminRoleAdminPermissions != null))
+            foreach (var adminUserAdminRole in adminUserAdminRoles)
             {
-                permissions.AddRange(
-                    adminUserAdminRole.AdminRole.AdminRoleAdminPermissions.Select(adminRoleAdminPermission =>
-                        adminRoleAdminPermission.AdminPermission.Code)
-                );
+                if (adminUserAdminRole?.AdminRole?.AdminRoleAdminPermissions != null)
+                {
+                    permissions.AddRange(
+                        adminUserAdminRole.AdminRole.AdminRoleAdminPermissions.Select(adminRoleAdminPermission =>
+                            adminRoleAdminPermission.AdminPermission.Code)
+                    );
+                }
             }
 
             return permissions.ToArray();

@@ -6,7 +6,7 @@ namespace WebApi.Admin.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    //[Authorize] //TODO release Authorize
+    [Authorize]
     public class CustomControllerBase : ControllerBase
     {
         private IMediator _mediator;

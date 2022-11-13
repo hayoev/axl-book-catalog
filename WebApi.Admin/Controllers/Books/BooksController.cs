@@ -7,6 +7,8 @@ using Application.Admin.Features.Books.Commands.UpdateBook;
 using Application.Admin.Features.Books.Queries.GetBookDetail;
 using Application.Admin.Features.Books.Queries.GetBookEdit;
 using Application.Admin.Features.Books.Queries.GetBooks;
+using Domain.Enums.AdminUsers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Sieve.Models;
@@ -17,7 +19,7 @@ namespace WebApi.Admin.Controllers.Books
     public class BooksController : CustomControllerBase
     {
         [HttpGet]
-        //[Authorize(nameof(AdminPermissionEnum.BookList))]
+        [Authorize(nameof(AdminPermissionEnum.BookList))]
         [ProducesResponseType(typeof(SuccessResponse<List<GetBooksViewModel>>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Index([FromQuery] SieveModel request)
         {
@@ -36,7 +38,7 @@ namespace WebApi.Admin.Controllers.Books
         }
 
         [HttpGet("{bookId:guid}")]
-        //[Authorize(nameof(AdminPermissionEnum.BookDetail))]
+        [Authorize(nameof(AdminPermissionEnum.BookDetail))]
         [ProducesResponseType(typeof(SuccessResponse<GetBookDetailViewModel>), StatusCodes.Status200OK)]
         public async Task<ActionResult> GetById(Guid bookId)
         {
@@ -49,7 +51,7 @@ namespace WebApi.Admin.Controllers.Books
 
 
         [HttpPost("create")]
-        //[Authorize(nameof(AdminPermissionEnum.CreateBook))]
+        [Authorize(nameof(AdminPermissionEnum.BookCreate))]
         public async Task<IActionResult> Create(CreateBookCommand request)
         {
             var id = await Mediator.Send(request);
@@ -58,7 +60,7 @@ namespace WebApi.Admin.Controllers.Books
         }
 
         [HttpGet("{bookId:guid}/edit")]
-        //[Authorize(nameof(AdminPermissionEnum.BookEdit))]
+        [Authorize(nameof(AdminPermissionEnum.BookEdit))]
         [ProducesResponseType(typeof(SuccessResponse<GetBookEditViewModel>), StatusCodes.Status200OK)]
         public async Task<ActionResult> GetForEdit(Guid bookId)
         {
@@ -70,7 +72,7 @@ namespace WebApi.Admin.Controllers.Books
         }
 
         [HttpPut("edit")]
-        //[Authorize(nameof(AdminPermissionEnum.BookEdit))]
+        [Authorize(nameof(AdminPermissionEnum.BookEdit))]
         [ProducesResponseType(typeof(SuccessResponse<Guid>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Update(UpdateBookCommand request)
         {

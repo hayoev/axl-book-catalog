@@ -17,10 +17,14 @@ namespace Infrastructure.Persistence.Contexts
 {
     public class AdminApplicationDbContext : DbContext, IApplicationDbContext
     {
-        public AdminApplicationDbContext(DbContextOptions<AdminApplicationDbContext> options) : base(options)
+        private readonly IAuthenticatedUserService _authenticatedUserService;
+
+        public AdminApplicationDbContext(DbContextOptions<AdminApplicationDbContext> options,
+            IAuthenticatedUserService authenticatedUserService) : base(options)
         {
+            _authenticatedUserService = authenticatedUserService;
         }
-        
+
         public DbSet<Book> Books { get; set; }
         public DbSet<BookCategory> BookCategories { get; set; }
         public DbSet<Author> Authors { get; set; }
@@ -54,22 +58,22 @@ namespace Infrastructure.Persistence.Contexts
                 {
                     case EntityState.Added:
                         entry.Entity.CreatedDateTime = DateTime.Now;
-                        entry.Entity.CreatedByAdminUserId = AdminUserEnum.Sadmin.Value; //todo after authorization;
+                        entry.Entity.CreatedByAdminUserId = _authenticatedUserService.UserId;
                         break;
                     case EntityState.Modified:
                         entry.Entity.UpdatedDateTime = DateTime.Now;
-                        entry.Entity.UpdatedByAdminUserId = AdminUserEnum.Sadmin.Value; //todo after authorization
+                        entry.Entity.UpdatedByAdminUserId = _authenticatedUserService.UserId;
                         break;
                 }
             }
-            
+
             foreach (var entry in ChangeTracker.Entries<ISoftDeleted>())
             {
                 if (entry.State == EntityState.Deleted)
                 {
                     entry.State = EntityState.Modified;
                     entry.Entity.DeletedDateTime = DateTime.Now;
-                    entry.Entity.DeletedByUserId = AdminUserEnum.Sadmin.Value; //todo after authorization;
+                    entry.Entity.DeletedByUserId = _authenticatedUserService.UserId;
                 }
             }
 
@@ -79,13 +83,12 @@ namespace Infrastructure.Persistence.Contexts
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-            
+
             modelBuilder.Entity<Author>()
                 .HasQueryFilter(p => !p.DeletedDateTime.HasValue);
-            
+
             modelBuilder.Entity<Book>()
                 .HasQueryFilter(p => !p.DeletedDateTime.HasValue);
-
         }
     }
 }

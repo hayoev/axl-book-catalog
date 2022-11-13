@@ -1,6 +1,7 @@
 ﻿using Application.Admin.Common.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using WebApi.Admin.Common.Exceptions;
 using WebApi.Admin.Common.Responses;
 
 namespace WebApi.Admin.Common.Filters
@@ -30,18 +31,23 @@ namespace WebApi.Admin.Common.Filters
                     context.Result = new OkObjectResult(errorResponse);
                     context.ExceptionHandled = true;
                     break;
+                case AccessForbiddenException _:
+                    errorResponse = new ErrorResponse(ErrorStatusCodeEnum.BAD_REQUEST, "Доступ запрещен!");
+                    context.Result = new OkObjectResult(errorResponse);
+                    context.ExceptionHandled = true;
+                    break;
                 case UnauthorizedException _:
-                    errorResponse = new ErrorResponse(ErrorStatusCodeEnum.ERROR_AUTH, "Ошибка авторизации");
+                    errorResponse = new ErrorResponse(ErrorStatusCodeEnum.ERROR_AUTH,"Ошибка авторизации");
                     context.Result = new OkObjectResult(errorResponse);
                     context.ExceptionHandled = true;
                     break;
                 case TokenExpiredException _:
-                    errorResponse = new ErrorResponse(ErrorStatusCodeEnum.TOKEN_EXPIRED, "Срок токена истек");
+                    errorResponse = new ErrorResponse(ErrorStatusCodeEnum.TOKEN_EXPIRED,"Срок токена истек");
                     context.Result = new OkObjectResult(errorResponse);
                     context.ExceptionHandled = true;
                     break;
                 case RefreshTokenExpiredException _:
-                    errorResponse = new ErrorResponse(ErrorStatusCodeEnum.TOKEN_REFRESH_EXPIRED, "Срок токена истек");
+                    errorResponse = new ErrorResponse(ErrorStatusCodeEnum.TOKEN_REFRESH_EXPIRED,"Срок токена истек");
                     context.Result = new OkObjectResult(errorResponse);
                     context.ExceptionHandled = true;
                     break;

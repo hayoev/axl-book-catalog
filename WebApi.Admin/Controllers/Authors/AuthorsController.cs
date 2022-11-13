@@ -7,6 +7,8 @@ using Application.Admin.Features.Authors.Commands.UpdateAuthor;
 using Application.Admin.Features.Authors.Queries.GetAuthorDetail;
 using Application.Admin.Features.Authors.Queries.GetAuthorEdit;
 using Application.Admin.Features.Authors.Queries.GetAuthors;
+using Domain.Enums.AdminUsers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Sieve.Models;
@@ -17,7 +19,7 @@ namespace WebApi.Admin.Controllers.Authors
     public class AuthorsController : CustomControllerBase
     {
         [HttpGet]
-        //[Authorize(nameof(AdminPermissionEnum.AuthorList))]
+        [Authorize(nameof(AdminPermissionEnum.AuthorList))]
         [ProducesResponseType(typeof(SuccessResponse<List<GetAuthorsViewModel>>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Index([FromQuery] SieveModel request)
         {
@@ -36,7 +38,7 @@ namespace WebApi.Admin.Controllers.Authors
         }
 
         [HttpGet("{authorId:guid}")]
-        //[Authorize(nameof(AdminPermissionEnum.AuthorDetail))]
+        [Authorize(nameof(AdminPermissionEnum.AuthorDetail))]
         [ProducesResponseType(typeof(SuccessResponse<GetAuthorDetailViewModel>), StatusCodes.Status200OK)]
         public async Task<ActionResult> GetById(Guid authorId)
         {
@@ -48,7 +50,7 @@ namespace WebApi.Admin.Controllers.Authors
         }
 
         [HttpPost("create")]
-        //[Authorize(nameof(AdminPermissionEnum.CreateAuthor))]
+        [Authorize(nameof(AdminPermissionEnum.AuthorCreate))]
         public async Task<IActionResult> Create(CreateAuthorCommand request)
         {
             var id = await Mediator.Send(request);
@@ -57,7 +59,7 @@ namespace WebApi.Admin.Controllers.Authors
         }
 
         [HttpGet("{authorId:guid}/edit")]
-        //[Authorize(nameof(AdminPermissionEnum.AuthorEdit))]
+        [Authorize(nameof(AdminPermissionEnum.AuthorEdit))]
         [ProducesResponseType(typeof(SuccessResponse<GetAuthorEditViewModel>), StatusCodes.Status200OK)]
         public async Task<ActionResult> GetForEdit(Guid authorId)
         {
@@ -69,7 +71,7 @@ namespace WebApi.Admin.Controllers.Authors
         }
 
         [HttpPut("edit")]
-        //[Authorize(nameof(AdminPermissionEnum.AuthorEdit))]
+        [Authorize(nameof(AdminPermissionEnum.AuthorEdit))]
         [ProducesResponseType(typeof(SuccessResponse<Guid>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Update(UpdateAuthorCommand request)
         {
@@ -78,7 +80,7 @@ namespace WebApi.Admin.Controllers.Authors
         }
 
         [HttpDelete("delete")]
-        //[Authorize(nameof(AdminPermissionEnum.AuthorEdit))]
+        [Authorize(nameof(AdminPermissionEnum.AuthorDelete))]
         [ProducesResponseType(typeof(SuccessResponse<Guid>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Delete(DeleteAuthorCommand request)
         {

@@ -34,13 +34,13 @@ namespace WebApi.Admin
                 .ConfigureApiBehaviorOptions(options => { options.SuppressModelStateInvalidFilter = true; })
                 .AddJsonOptions(options => { options.JsonSerializerOptions.IgnoreNullValues = true; })
                 .AddMvcOptions(o => o.AllowEmptyInputInBodyModelBinding = false)
-                //.AddMvcOptions(o => o.Filters.Add(typeof(ShowWithPermissionHandlerFilter)))
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateAuthorCommand>());
-            
+
             services.AddScoped<IAuthenticatedUserService, AuthenticatedUserService>();
 
             services.AddApplicationLayer(Configuration);
             services.AddApplicationAuthentication(Configuration);
+            services.AddWebApiAuthorization();
             services.AddAdminPersistenceInfrastructureLayer(Configuration);
             services.AddPasswordHasher();
             services.AddSwagger(Configuration);
@@ -57,10 +57,8 @@ namespace WebApi.Admin
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
-            app.UseAuthorization();
             app.UseErrorHandler();
-
+            
             app.UseAuthentication();
             app.UseAuthorization();
 
