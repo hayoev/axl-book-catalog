@@ -15,6 +15,7 @@ namespace Application.Client
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
+            //services.AddTransient<IPermissionService, PermissionService>();
 
             services.AddSieveProcessors();
             return services;

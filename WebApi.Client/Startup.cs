@@ -34,9 +34,11 @@ namespace WebApi.Client
                 .AddMvcOptions(o => o.AllowEmptyInputInBodyModelBinding = false)
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<GetBooksQuery>());
 
+            
+            services.AddApplicationLayer(Configuration); 
             services.AddScoped<IAuthenticatedUserService, AuthenticatedUserService>();
 
-            services.AddApplicationLayer(Configuration);
+            
 
             services.AddApplicationAuthentication(Configuration);
             services.AddWebApiAuthorization();
