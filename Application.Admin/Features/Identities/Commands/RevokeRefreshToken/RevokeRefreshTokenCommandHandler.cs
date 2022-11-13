@@ -12,15 +12,12 @@ namespace Application.Admin.Features.Identities.Commands.RevokeRefreshToken
     {
         private readonly IApplicationDbContext _dbContext;
         private readonly IAuthenticatedUserService _authenticatedUserService;
-        private readonly IMediator _mediator;
 
         public RevokeRefreshTokenCommandHandler(IApplicationDbContext dbContext,
-            IAuthenticatedUserService authenticatedUserService, 
-            IMediator mediator)
+            IAuthenticatedUserService authenticatedUserService)
         {
             _dbContext = dbContext;
             _authenticatedUserService = authenticatedUserService;
-            _mediator = mediator;
         }
 
         public async Task<bool> Handle(
@@ -34,8 +31,7 @@ namespace Application.Admin.Features.Identities.Commands.RevokeRefreshToken
             adminUser.RefreshTokenExpireDateTime = null;
             adminUser.LastLogoutDateTime = DateTime.Now;
             await _dbContext.SaveChangesAsync(cancellationToken);
-            await _mediator.Publish(new RevokedRefreshTokenEvent(adminUser.Id), cancellationToken);
-
+            
             return true;
         }
     }
