@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using Application.Admin.Common.Behaviours;
 using Application.Admin.Common.Extensions;
+using Application.Admin.Services.Permission;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,7 +16,7 @@ namespace Application.Admin
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
-            //services.AddTransient<IPermissionService, PermissionService>(); //TODO create PermissionService
+            services.AddTransient<IPermissionService, PermissionService>();
 
             services.AddSieveProcessors();
             return services;

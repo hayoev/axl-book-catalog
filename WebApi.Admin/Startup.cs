@@ -1,6 +1,9 @@
 using System;
 using Application.Admin;
+using Application.Admin.Common.Extensions;
+using Application.Admin.Common.Interfaces;
 using Application.Admin.Features.Authors.Commands.CreateAuthor;
+using Application.Admin.Services.PasswordHasher;
 using FluentValidation.AspNetCore;
 using Infrastructure.Persistence;
 using Microsoft.AspNetCore.Builder;
@@ -9,7 +12,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using WebApi.Admin.Common.Extensions;
 using WebApi.Admin.Common.Filters;
+using WebApi.Admin.Common.Services;
 
 namespace WebApi.Admin
 {
@@ -25,23 +30,20 @@ namespace WebApi.Admin
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers(config =>
-                {
-                   config.Filters.Add<ErrorValidationHandlerActionFilter>();
-                })
-                .ConfigureApiBehaviorOptions(options => 
-                {   
-                    options.SuppressModelStateInvalidFilter = true;     
-                })
+            services.AddControllers(config => { config.Filters.Add<ErrorValidationHandlerActionFilter>(); })
+                .ConfigureApiBehaviorOptions(options => { options.SuppressModelStateInvalidFilter = true; })
                 .AddJsonOptions(options => { options.JsonSerializerOptions.IgnoreNullValues = true; })
                 .AddMvcOptions(o => o.AllowEmptyInputInBodyModelBinding = false)
                 //.AddMvcOptions(o => o.Filters.Add(typeof(ShowWithPermissionHandlerFilter)))
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateAuthorCommand>());
+            
+            services.AddScoped<IAuthenticatedUserService, AuthenticatedUserService>();
 
-            
             services.AddApplicationLayer(Configuration);
+            services.AddApplicationAuthentication(Configuration);
             services.AddAdminPersistenceInfrastructureLayer(Configuration);
-            
+            services.AddPasswordHasher();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
@@ -57,7 +59,6 @@ namespace WebApi.Admin
                     },
                 });
             });
-            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -73,14 +74,15 @@ namespace WebApi.Admin
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseErrorHandler();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
-            
+
             app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint($"/swagger/v1/swagger.json", "AXL Book Catalog Admin API");
-            });
+            app.UseSwaggerUI(c => { c.SwaggerEndpoint($"/swagger/v1/swagger.json", "AXL Book Catalog Admin API"); });
         }
     }
 }
