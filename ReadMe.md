@@ -2,6 +2,11 @@
 
 # AXL Book Catalog with Clean Architecture Solution
 
+## Запуск проекта
+Для успешного запуска проекта необходимо настроить конфигурацию проекта Client API и Admin API
+
+
+
 ## Technologies
 
 * [ASP.NET Core 3.1](https://docs.microsoft.com/en-us/aspnet/core/)
