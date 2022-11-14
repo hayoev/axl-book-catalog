@@ -53,7 +53,7 @@ namespace WebApi.Admin.Controllers.Books
 
         [HttpPost("create")]
         [Authorize(nameof(AdminPermissionEnum.BookCreate))]
-        public async Task<IActionResult> Create(CreateBookCommand request)
+        public async Task<IActionResult> Create([FromForm] CreateBookCommand request)
         {
             var id = await Mediator.Send(request);
 

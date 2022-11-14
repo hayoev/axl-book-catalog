@@ -8,7 +8,6 @@ namespace Application.Admin.Features.Books.Commands.CreateBook
         {
             RuleFor(x => x.Name).NotEmpty();
             RuleFor(x => x.AuthorId).NotEmpty();
-            RuleFor(x => x.CategoryId).NotEmpty();
             RuleFor(x => x.PageCount).NotEmpty();
             RuleFor(x => x.PublishYear).NotEmpty();
         }

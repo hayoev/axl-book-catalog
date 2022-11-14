@@ -1,8 +1,8 @@
-using System;
 using Application.Admin;
 using Application.Admin.Common.Extensions;
 using Application.Admin.Common.Interfaces;
 using Application.Admin.Features.Authors.Commands.CreateAuthor;
+using Application.Admin.Services.FileUploader;
 using Application.Admin.Services.PasswordHasher;
 using FluentValidation.AspNetCore;
 using Infrastructure.Persistence;
@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
 using WebApi.Admin.Common.Extensions;
 using WebApi.Admin.Common.Filters;
 using WebApi.Admin.Common.Services;
@@ -41,6 +40,7 @@ namespace WebApi.Admin
             services.AddApplicationLayer(Configuration);
             services.AddApplicationAuthentication(Configuration);
             services.AddWebApiAuthorization();
+            services.AddFileUploader(Configuration);
             services.AddAdminPersistenceInfrastructureLayer(Configuration);
             services.AddPasswordHasher();
             services.AddSwagger(Configuration);
@@ -61,6 +61,7 @@ namespace WebApi.Admin
             
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseStaticFiles();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 
