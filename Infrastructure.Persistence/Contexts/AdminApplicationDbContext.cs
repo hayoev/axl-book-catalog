@@ -58,11 +58,15 @@ namespace Infrastructure.Persistence.Contexts
                 {
                     case EntityState.Added:
                         entry.Entity.CreatedDateTime = DateTime.Now;
-                        entry.Entity.CreatedByAdminUserId = _authenticatedUserService.UserId;
+                        entry.Entity.CreatedByAdminUserId = _authenticatedUserService.UserId == Guid.Empty
+                            ? AdminUserEnum.System.Value
+                            : _authenticatedUserService.UserId;
                         break;
                     case EntityState.Modified:
                         entry.Entity.UpdatedDateTime = DateTime.Now;
-                        entry.Entity.UpdatedByAdminUserId = _authenticatedUserService.UserId;
+                        entry.Entity.UpdatedByAdminUserId = _authenticatedUserService.UserId == Guid.Empty
+                            ? AdminUserEnum.System.Value
+                            : _authenticatedUserService.UserId;
                         break;
                 }
             }
@@ -73,7 +77,9 @@ namespace Infrastructure.Persistence.Contexts
                 {
                     entry.State = EntityState.Modified;
                     entry.Entity.DeletedDateTime = DateTime.Now;
-                    entry.Entity.DeletedByUserId = _authenticatedUserService.UserId;
+                    entry.Entity.DeletedByUserId = _authenticatedUserService.UserId == Guid.Empty
+                        ? AdminUserEnum.System.Value
+                        : _authenticatedUserService.UserId;
                 }
             }
 
