@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Application.Client.Common.Configurations;
 using Application.Client.Features.Books.Queries.GetBookDetail;
 using Application.Client.Features.Books.Queries.GetBooks;
+using Application.Client.Features.Users.Commands.AddBookToBookshelf;
+using Application.Client.Features.Users.Commands.RemoveBookFromBookshelf;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -52,6 +54,24 @@ namespace WebApi.Client.Controllers.Books
                 BooksPath = Path.Combine(fileUploadConfiguration.HostAddress, fileUploadConfiguration.Folder)
             };
             return Ok(new SuccessResponse<GetBookDetailViewModel>(data, meta: meta));
+        }
+        
+        [HttpPost("add-to-bookshelf")]
+        [Authorize]
+        public async Task<IActionResult> Create(AddBookToBookshelfCommand request)
+        {
+            var id = await Mediator.Send(request);
+
+            return Ok(new SuccessResponse<Guid>(id));
+        } 
+        
+        [HttpPost("remove-from-bookshelf")]
+        [Authorize]
+        public async Task<IActionResult> Create(RemoveBookFromBookshelfCommand request)
+        {
+            var id = await Mediator.Send(request);
+
+            return Ok(new SuccessResponse<Guid>(id));
         }
     }
 }
