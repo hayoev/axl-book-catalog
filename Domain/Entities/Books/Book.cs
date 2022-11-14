@@ -18,11 +18,11 @@ namespace Domain.Entities.Books
         public Author Author { get; set; }
         public short PublishYear { get; set; }
         public int PageCount { get; set; }
-        public Guid CategoryId { get; set; }
-        public Category Category { get; set; }
         public DateTime? DeletedDateTime { get; set; }
         public Guid? DeletedByUserId { get; set; }
         public AdminUser DeletedByUser { get; set; }
+        
+        public ICollection<BookCategory> BookCategories { get; set; } = new Collection<BookCategory>();
 
     }
 }

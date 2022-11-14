@@ -30,7 +30,7 @@ namespace Application.Client.Features.Books.Queries.GetBooks
         {
             var queryable = _dbContext.Books
                 .Include(x=>x.Author)
-                .Include(x=>x.Category)
+                .Include(x=>x.BookCategories)
                 .OrderByDescending(p => p.CreatedDateTime)
                 .AsQueryable();
 

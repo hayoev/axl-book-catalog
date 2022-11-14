@@ -27,12 +27,6 @@ namespace Infrastructure.Persistence.Configurations.Books
                 .HasForeignKey(x => x.AuthorId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired();
-            
-            builder.HasOne(x => x.Category)
-                .WithMany(x=>x.Books)
-                .HasForeignKey(x => x.CategoryId)
-                .OnDelete(DeleteBehavior.Restrict)
-                .IsRequired();
 
             builder.HasOne(x => x.CreatedByAdminUser)
                 .WithMany()

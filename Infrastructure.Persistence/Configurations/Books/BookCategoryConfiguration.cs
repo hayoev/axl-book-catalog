@@ -9,13 +9,13 @@ namespace Infrastructure.Persistence.Configurations.Books
         public void Configure(EntityTypeBuilder<BookCategory> builder)
         {
             builder.HasOne(x => x.Book)
-                .WithMany()
+                .WithMany(x=>x.BookCategories)
                 .HasForeignKey(x => x.BookId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired();
             
             builder.HasOne(x => x.Category)
-                .WithMany()
+                .WithMany(x=>x.Books)
                 .HasForeignKey(x => x.CategoryId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired();

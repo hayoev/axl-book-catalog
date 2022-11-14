@@ -3,15 +3,17 @@ using System;
 using Infrastructure.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(AdminApplicationDbContext))]
-    partial class AdminApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221114093302_RemoveColumnCategoryInTableBooks")]
+    partial class RemoveColumnCategoryInTableBooks
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -772,7 +774,7 @@ namespace Infrastructure.Persistence.Migrations
                         .IsRequired();
 
                     b.HasOne("Domain.Entities.Categories.Category", "Category")
-                        .WithMany("Books")
+                        .WithMany("BookCategories")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -896,7 +898,7 @@ namespace Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Domain.Entities.Categories.Category", b =>
                 {
-                    b.Navigation("Books");
+                    b.Navigation("BookCategories");
                 });
 
             modelBuilder.Entity("Domain.Entities.Users.User", b =>

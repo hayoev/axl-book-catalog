@@ -25,7 +25,7 @@ namespace Application.Admin.Features.Books.Queries.GetBookDetail
         {
             return await _dbContext.Books
                        .Include(x=>x.Author)
-                       .Include(x=>x.Category)
+                       .Include(x=>x.BookCategories)
                        .AsNoTracking()
                        .ProjectTo<GetBookDetailViewModel>(_mapper.ConfigurationProvider)
                        .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken) ??

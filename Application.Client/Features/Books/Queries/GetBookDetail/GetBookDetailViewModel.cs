@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace Application.Client.Features.Books.Queries.GetBookDetail
 {
@@ -12,5 +14,11 @@ namespace Application.Client.Features.Books.Queries.GetBookDetail
         public short PublishYear { get; set; }
         public int PageCount { get; set; }
         public string CategoryName { get; set; }
+        public IList<CategoryDto> Categories { get; set; } = new Collection<CategoryDto>();
+    }
+
+    public class CategoryDto
+    {
+        public string Name { get; set; }
     }
 }

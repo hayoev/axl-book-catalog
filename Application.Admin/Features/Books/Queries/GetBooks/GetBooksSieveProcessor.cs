@@ -18,10 +18,8 @@ namespace Application.Admin.Features.Books.Queries.GetBooks
             mapper.Property<Book>(p => p.Name)
                 .CanFilter().CanSort();
             mapper.Property<Book>(p => p.Author.Fullname)
-                .CanFilter().CanSort().HasName("AuthorName"); 
+                .CanFilter().CanSort().HasName("AuthorName");
             
-            mapper.Property<Book>(p => p.Category.Name)
-                .CanFilter().CanSort().HasName("CategoryName");
             return mapper;
         }
     }

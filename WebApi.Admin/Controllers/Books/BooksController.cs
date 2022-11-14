@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Application.Admin.Features.Books.Commands.AddBookToCategory;
 using Application.Admin.Features.Books.Commands.CreateBook;
 using Application.Admin.Features.Books.Commands.DeleteBook;
 using Application.Admin.Features.Books.Commands.UpdateBook;
@@ -88,5 +89,16 @@ namespace WebApi.Admin.Controllers.Books
             var id = await Mediator.Send(request);
             return Ok(new SuccessResponse<Guid>(id));
         }
+        
+        
+        [HttpPost("add-to-category")]
+        [Authorize(nameof(AdminPermissionEnum.BookEdit))]
+        [ProducesResponseType(typeof(SuccessResponse<Guid>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> AddToCategory(AddBookToCategoryCommand request)
+        {
+            var id = await Mediator.Send(request);
+            return Ok(new SuccessResponse<Guid>(id));
+        }
+
     }
 }

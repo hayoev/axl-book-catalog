@@ -11,6 +11,5 @@ namespace Application.Client.Features.Books.Queries.GetBooks
         public string AuthorName { get; set; }
         public short PublishYear { get; set; }
         public int PageCount { get; set; }
-        public string CategoryName { get; set; }
     }
 }

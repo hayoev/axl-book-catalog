@@ -10,6 +10,6 @@ namespace Domain.Entities.Categories
         public string Code { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public ICollection<Book> Books { get; set; } = new Collection<Book>();
+        public ICollection<BookCategory> Books { get; set; } = new Collection<BookCategory>();
     }
 }

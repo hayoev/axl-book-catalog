@@ -23,13 +23,24 @@ namespace Application.Client.Features.Books.Queries.GetBookDetail
         public async Task<GetBookDetailViewModel> Handle(GetBookDetailQuery request,
             CancellationToken cancellationToken)
         {
-            return await _dbContext.Books
+
+
+          var s=   await _dbContext.Books
+                .Include(x => x.Author)
+                .Include(x => x.BookCategories)
+                .ThenInclude(x => x.Category)
+                .AsNoTracking().ToListAsync(cancellationToken: cancellationToken);
+            
+            var data = await _dbContext.Books
                        .Include(x => x.Author)
-                       .Include(x => x.Category)
+                       .Include(x => x.BookCategories)
+                       .ThenInclude(x => x.Category)
                        .AsNoTracking()
                        .ProjectTo<GetBookDetailViewModel>(_mapper.ConfigurationProvider)
                        .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken) ??
                    throw new LogicException("Book not found");
+
+            return data;
         }
     }
 }
