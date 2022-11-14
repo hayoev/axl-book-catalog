@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
+using Application.Client.Common.Configurations;
 using Application.Client.Features.Books.Queries.GetBookDetail;
 using Application.Client.Features.Books.Queries.GetBooks;
 using Microsoft.AspNetCore.Authorization;
@@ -16,7 +18,8 @@ namespace WebApi.Client.Controllers.Books
         [HttpGet]
         [Authorize]
         [ProducesResponseType(typeof(SuccessResponse<List<GetBooksViewModel>>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Index([FromQuery] SieveModel request)
+        public async Task<IActionResult> Index([FromServices] FileUploadConfiguration fileUploadConfiguration,
+            [FromQuery] SieveModel request)
         {
             var data = await Mediator.Send(new GetBooksQuery()
             {
@@ -26,7 +29,8 @@ namespace WebApi.Client.Controllers.Books
 
             var meta = new Meta()
             {
-                Pagination = data.Pagination
+                Pagination = data.Pagination,
+                BooksPath = Path.Combine(fileUploadConfiguration.HostAddress, fileUploadConfiguration.Folder)
             };
 
             return Ok(new SuccessResponse<List<GetBooksViewModel>>(data.Items, meta: meta));
@@ -35,13 +39,19 @@ namespace WebApi.Client.Controllers.Books
         [HttpGet("{bookId:guid}")]
         [Authorize]
         [ProducesResponseType(typeof(SuccessResponse<GetBookDetailViewModel>), StatusCodes.Status200OK)]
-        public async Task<ActionResult> GetById(Guid bookId)
+        public async Task<ActionResult> GetById([FromServices] FileUploadConfiguration fileUploadConfiguration,
+            Guid bookId)
         {
             var data = await Mediator.Send(new GetBookDetailQuery()
             {
                 Id = bookId
             });
-            return Ok(new SuccessResponse<GetBookDetailViewModel>(data));
+
+            var meta = new Meta()
+            {
+                BooksPath = Path.Combine(fileUploadConfiguration.HostAddress, fileUploadConfiguration.Folder)
+            };
+            return Ok(new SuccessResponse<GetBookDetailViewModel>(data, meta: meta));
         }
     }
 }

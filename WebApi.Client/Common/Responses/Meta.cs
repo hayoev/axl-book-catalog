@@ -4,6 +4,7 @@
     {
         public object Pagination { get; set; }
 
+        public string BooksPath { get; set; }
         public string TemporaryToken { get; set; }
 
         public string AccessToken { get; set; }
