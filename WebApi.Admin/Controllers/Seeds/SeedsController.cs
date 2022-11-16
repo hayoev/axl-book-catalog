@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Application.Admin.Common.Interfaces;
-using Domain.Enums.AdminUsers;
 using Infrastructure.Persistence.Seeders;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -20,7 +19,7 @@ namespace WebApi.Admin.Controllers.Seeds
         }
         
         [HttpPost]
-        [Authorize(nameof(AdminPermissionEnum.SeedStart))]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(SuccessResponse<Dictionary<string,string>>),StatusCodes.Status200OK)]
         public async Task<IActionResult> Start(SeedersRequest seedersRequest)
         {

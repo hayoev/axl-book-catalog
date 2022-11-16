@@ -10,6 +10,11 @@ namespace Infrastructure.Persistence.Seeds
     {
         protected override bool ForceUpdate => true;
 
+        public P1AdminPermissionSeed(params object[] seedParam)
+        {
+            
+        }
+
         protected override IList<AdminPermission> DataSeed()
         {
             var data = new List<AdminPermission>();
